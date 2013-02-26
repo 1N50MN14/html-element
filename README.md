@@ -9,6 +9,8 @@ This is a partial implementation of HTMLElement, to get things like hyperscript 
 - innerText
 - title()
 
+Please make a PR to help making this this a more accurate implementation.
+
 ## License
 
 MIT
