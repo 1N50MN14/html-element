@@ -1,7 +1,1 @@
-# html-element
-
-# html-element\n\nA simple HTMLElement shim on the server ## License\n\nMIT\n
-
-## License
-
-MIT
+# html-element\n\nA simple HTMLElement shim on the server\n\n ## License\n\nMIT\n
