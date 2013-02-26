@@ -5,8 +5,8 @@ This is a partial implementation of HTMLElement, to get things like hyperscript 
 
 ## TODO / Missing features
 - Get setAttribute() and style setProperty() to work
-- innerHTML (getters & setters)
-- innerText (setters & setters)
+- innerHTML
+- innerText
 - title()
 
 ## License
