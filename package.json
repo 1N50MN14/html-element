@@ -1,0 +1,22 @@
+{
+  "name": "html-element",
+  "version": "1.0.0",
+  "homepage": "https://github.com/1N50MN14/html-element",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/1N50MN14/html-element.git"
+  },
+  "devDependencies": {
+    "tape": "~0.2.2"
+  }
+  "author": {
+    "name": "ins0mnia",
+    "email": "ayman.mackouly@gmail.com",
+    "url": "http://github.com/1N50MN14"
+  },
+  "license": "MIT",
+  "readme": "# html-element\n\nA simple HTMLElement shim on the server ## License\n\nMIT\n",
+  "readmeFilename": "README.md",
+  "_id": "html-element@1.0.0",
+  "description": "A simple HTMLElement shim on the server."
+}
