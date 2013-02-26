@@ -7,8 +7,8 @@
     "url": "git://github.com/1N50MN14/html-element.git"
   },
   "devDependencies": {
-    "tape": "~0.2.2"
-  }
+    "tap": "~0.4.0"
+  },
   "author": {
     "name": "ins0mnia",
     "email": "ayman.mackouly@gmail.com",
