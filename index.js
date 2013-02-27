@@ -105,7 +105,23 @@ Element.prototype.replaceChild = function(newChild, oldChild) {
     });
 }
 
-Element.prototype.toString = function () {
+Element.prototype.__defineGetter__('innerHTML', function () {
+  var s = ''
+  this.childNodes.forEach(function (e) {
+    s += (e.outerHTML || e.textContent)
+  })
+  return s
+})
+
+Element.prototype.__defineSetter__('innerHTML', function (v) {
+  //only handle this simple case that doesn't need parsing
+  //this case is useful... parsing is hard and will need added deps!
+  if(v == '')
+    this.childNodes.length = 0
+})
+
+
+Element.prototype.__defineGetter__('outerHTML', function () {
   var a = [],  self = this;
   
   function _stringify(arr, d) {
@@ -126,14 +142,21 @@ Element.prototype.toString = function () {
   }
 
   a.push('<'+this.nodeName + _stringify(this.attributes)+'>')
-  this.textContent && a.push(this.textContent);
-  this.childNodes.forEach(function (e) {
-    a.push(e.toString())
-  })
+
+  a.push(this.innerHTML)
+
   a.push('</'+this.nodeName+'>')
 
   return a.join('\n')
-}
+})
+
+Element.prototype.__defineGetter__('textContent', function () {
+  var s = ''
+  this.childNodes.forEach(function (e) {
+    s += e.textContent
+  })
+  return s
+})
 
 Element.prototype.addEventListener = function(t, l) {}
 
@@ -146,9 +169,13 @@ function escapeHTML(s) {
       .replace(/>/g, '&gt;');
   }
 
-function Text(){
-}
+function Text(){}
 
-Text.prototype.toString = function() {
-    return escapeHTML(this.value);
-}
+Text.prototype.__defineGetter__('textContent', function() {
+  return escapeHTML(this.value || '');
+})
+
+Text.prototype.__defineSetter__('textContent', function(v) {
+  this.value = v
+})
+
