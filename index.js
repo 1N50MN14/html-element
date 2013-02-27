@@ -105,6 +105,14 @@ Element.prototype.replaceChild = function(newChild, oldChild) {
     });
 }
 
+Element.prototype.__defineGetter__('innerHTML', function () {
+  var s = ''
+  this.childNodes.forEach(function (e) {
+    s += (e.outerHTML || e.textContent)
+  })
+  return s
+})
+
 Element.prototype.__defineGetter__('outerHTML', function () {
   var a = [],  self = this;
   
@@ -127,10 +135,8 @@ Element.prototype.__defineGetter__('outerHTML', function () {
 
   a.push('<'+this.nodeName + _stringify(this.attributes)+'>')
 
-  this.childNodes.forEach(function (e) {
-    console.log(e, e.value)
-    a.push(e.outerHTML || e.textContent)
-  })
+  a.push(this.innerHTML)
+
   a.push('</'+this.nodeName+'>')
 
   return a.join('\n')
@@ -160,7 +166,6 @@ function Text(){}
 Text.prototype.__defineGetter__('textContent', function() {
   return escapeHTML(this.value || '');
 })
-
 
 Text.prototype.__defineSetter__('textContent', function(v) {
   this.value = v
