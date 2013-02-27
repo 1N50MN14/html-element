@@ -113,6 +113,14 @@ Element.prototype.__defineGetter__('innerHTML', function () {
   return s
 })
 
+Element.prototype.__defineSetter__('innerHTML', function (v) {
+  //only handle this simple case that doesn't need parsing
+  //this case is useful... parsing is hard and will need added deps!
+  if(v == '')
+    this.childNodes.length = 0
+})
+
+
 Element.prototype.__defineGetter__('outerHTML', function () {
   var a = [],  self = this;
   
