@@ -105,7 +105,7 @@ Element.prototype.replaceChild = function(newChild, oldChild) {
     });
 }
 
-Element.prototype.toString = function () {
+Element.prototype.__defineGetter__('outerHTML', function () {
   var a = [],  self = this;
   
   function _stringify(arr, d) {
@@ -126,14 +126,23 @@ Element.prototype.toString = function () {
   }
 
   a.push('<'+this.nodeName + _stringify(this.attributes)+'>')
-  this.textContent && a.push(this.textContent);
+
   this.childNodes.forEach(function (e) {
-    a.push(e.toString())
+    console.log(e, e.value)
+    a.push(e.outerHTML || e.textContent)
   })
   a.push('</'+this.nodeName+'>')
 
   return a.join('\n')
-}
+})
+
+Element.prototype.__defineGetter__('textContent', function () {
+  var s = ''
+  this.childNodes.forEach(function (e) {
+    s += e.textContent
+  })
+  return s
+})
 
 Element.prototype.addEventListener = function(t, l) {}
 
@@ -146,9 +155,14 @@ function escapeHTML(s) {
       .replace(/>/g, '&gt;');
   }
 
-function Text(){
-}
+function Text(){}
 
-Text.prototype.toString = function() {
-    return escapeHTML(this.value);
-}
+Text.prototype.__defineGetter__('textContent', function() {
+  return escapeHTML(this.value || '');
+})
+
+
+Text.prototype.__defineSetter__('textContent', function(v) {
+  this.value = v
+})
+
