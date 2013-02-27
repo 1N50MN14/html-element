@@ -40,6 +40,15 @@ Style.prototype.getProperty = function(n) {
     return this.el._getProperty(this.styles, n);
 }
 
+function classList(el) {  
+  this.el = el;
+}
+
+classList.prototype.add = function(cls) {    
+  !this.el.getAttribute('class') && this.el.setAttribute('class','');  
+  var v = this.el.getAttribute('class').value;
+  this.el.setAttribute('class',v.length ? v+cls+' ' : v+cls);
+}
 
 function Attribute(name, value){  
   if (name) {
@@ -52,9 +61,8 @@ function Attribute(name, value){
 function Element() {
     var self = this;
 
-    this.classList = []
-    this.classList.add = this.classList.push.bind(this.classList);
     this.style = new Style(this)
+    this.classList = new classList(this);
     this.childNodes = [];
     this.attributes = [];
 
@@ -71,7 +79,7 @@ function Element() {
       if (!key) return;
       key = key.toLowerCase();
       for (var i=0;i<arr.length;i++) {
-        if (key == arr[i].name) return key[i];
+        if (key == arr[i].name) return arr[i];
       }
     }
 }
@@ -102,7 +110,6 @@ Element.prototype.toString = function () {
   
   function _stringify(arr, d) {
     var attr = [], value;
-
     arr.forEach(function(a){
       value = ('style' != a.name) ? a.value : _stylify(self.style.styles);
       attr.push(a.name+'='+'\"'+value+'\"');

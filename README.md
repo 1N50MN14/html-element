@@ -16,8 +16,9 @@ Note: adds "document" to globals.
 - getAttribute(name)
 - setProperty(name, value)
 - getProperty(name)
+- classList.add(class)
 
-(setAttribute updates attribute if exists, otherwise creates anew)
+Setters update existing objects, otherwise create anew; 
 
 ## Properties
 
@@ -27,7 +28,7 @@ Note: adds "document" to globals.
 
 ## TODO / Missing features
 - innerHTML
-- title()
+- title (?)
 
 Please make a PR to help making this this a more accurate implementation.
 
