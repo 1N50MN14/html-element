@@ -23,19 +23,21 @@ function Node () {}
 Text.prototype = new Node()
 Element.prototype = new Node()
 
-function Style () {
-
-}
+function Style () {}
 
 Style.prototype.setProperty = function (k,v) {
   this[k] = v
 }
+
+function Attribute(){}
+
 
 function Element() {
     this.classList = []
     this.classList.add = this.classList.push.bind(this.classList);
     this.style = new Style
     this.childNodes = [];
+    this.attributes = [];
 }
 
 Element.prototype.appendChild = function(child) {
@@ -44,7 +46,10 @@ Element.prototype.appendChild = function(child) {
 }
 
 Element.prototype.setAttribute = function (k, v) {
-  this[k] = v
+    var a = new Attribute
+    a.name = k
+    a.value = v
+    this.attributes.push(a)    
 }
 
 Element.prototype.replaceChild = function(newChild, oldChild) {
@@ -56,12 +61,22 @@ Element.prototype.replaceChild = function(newChild, oldChild) {
 }
 
 Element.prototype.toString = function () {
-  var a = []
-  a.push('<'+this.nodeName+'>')
+  var a = [];
+  
+  function _stringify(arr) {
+    var attr = [];
+    arr.forEach(function(a){
+      attr.push(a.name+'=\''+a.value+'\'');
+    })
+    return attr.length ? ' '+attr.join(" ") : '';
+  }    
+
+  a.push('<'+this.nodeName + _stringify(this.attributes)+'>')
   this.childNodes.forEach(function (e) {
     a.push(e.toString())
   })
   a.push('</'+this.nodeName+'>')
+
   return a.join('\n')
 }
 
