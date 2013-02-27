@@ -29,6 +29,14 @@ test('create a Text node', function(t){
   h1.appendChild(document.createElement('h2'))
   t.equal(clean(h1.outerHTML), '<h1 class="myclass">hello<h2></h2></h1>')
   t.equal(clean(h1.innerHTML), "hello<h2></h2>")
+
+  h1.innerHTML = ''
+
+  t.equal(clean(h1.innerHTML), "")
+  t.equal(clean(h1.outerHTML), '<h1 class="myclass"></h1>')
+  t.equal(h1.childNodes.length, 0)
+
+
   t.end();
 })
 
