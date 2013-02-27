@@ -12,6 +12,7 @@ test('create a Text node', function(t){
   var h1 = document.createElement('h1')
   t.equal(clean(h1.outerHTML), "<h1></h1>")
   t.equal(clean(h1.textContent), "")
+  t.equal(clean(h1.innerHTML), "")
 
   h1.setAttribute('class', 'myclass');      
   t.type(h1.toString(), "string", "type of h1 should be string")
@@ -23,6 +24,11 @@ test('create a Text node', function(t){
 
   t.equal(clean(h1.outerHTML), '<h1 class="myclass">hello</h1>')
   t.equal(clean(h1.textContent), "hello")
+  t.equal(clean(h1.innerHTML), "hello")
+
+  h1.appendChild(document.createElement('h2'))
+  t.equal(clean(h1.outerHTML), '<h1 class="myclass">hello<h2></h2></h1>')
+  t.equal(clean(h1.innerHTML), "hello<h2></h2>")
   t.end();
 })
 
