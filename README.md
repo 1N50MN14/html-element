@@ -4,7 +4,7 @@ A simple HTMLElement shim on the server.
 
 This is a partial implementation of HTMLElement, to get client-side templates (such as [hyperscript](https://github.com/dominictarr/hyperscript)) working in node!
 
-The current implementation is fully compatible with [hyperscript](https://github.com/dominictarr/hyperscript)!
+The current implementation is fully compatible with [hyperscript](https://github.com/dominictarr/hyperscript).
 
 Note: adds "document" to globals.
 
