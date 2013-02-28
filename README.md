@@ -27,10 +27,8 @@ Setters update existing objects, otherwise create anew;
 - attribute.name
 
 ## TODO / Missing features
-- innerHTML
-- title (?)
+- Your PR to make this a more accurate implementation
 
-Please make a PR to help making this this a more accurate implementation.
 
 ## License
 
