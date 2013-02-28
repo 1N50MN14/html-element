@@ -105,6 +105,23 @@ Element.prototype.replaceChild = function(newChild, oldChild) {
     });
 }
 
+Element.prototype.removeChild = function(rChild) {
+    var self = this;
+    this.childNodes.forEach(function(child, index){
+      if (child === rChild) delete self.childNodes[index];
+    })
+}
+
+Element.prototype.insertBefore = function(newChild, existingChild) {
+    var self = this;
+    this.childNodes.forEach(function(child, index){      
+      if (child === existingChild) {
+        index === 0 ?  self.childNodes.unshift(newChild)
+                    :  self.childNodes.splice(index, 0, newChild);
+      }  
+    })
+}
+
 Element.prototype.__defineGetter__('innerHTML', function () {
   var s = ''
   this.childNodes.forEach(function (e) {

@@ -14,6 +14,8 @@ Note: adds "document" to globals.
 - createTextNode(value)
 - appendChild(node)
 - replaceChild(node)
+- removeChild(node)
+- insertBefore(new, existing)
 - toString()
 - setAttribute(name, value)
 - getAttribute(name)
