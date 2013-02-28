@@ -1,7 +1,9 @@
 # html-element
 
 A simple HTMLElement shim on the server.
-This is a partial implementation of HTMLElement, to get things like hyperscript working in node.
+
+This is a partial implementation of HTMLElement, to get client-side templates
+(such as [hyperscript](https://github.com/dominictarr/hyperscript)) working in node!
 
 Note: adds "document" to globals.
 
