@@ -124,8 +124,8 @@ Element.prototype.__defineSetter__('innerHTML', function (v) {
 Element.prototype.__defineGetter__('outerHTML', function () {
   var a = [],  self = this;
   
-  function _stringify(arr, d) {
-    var attr = [], value;
+  function _stringify(arr) {
+    var attr = [], value;        
     arr.forEach(function(a){
       value = ('style' != a.name) ? a.value : _stylify(self.style.styles);
       attr.push(a.name+'='+'\"'+value+'\"');
@@ -141,7 +141,29 @@ Element.prototype.__defineGetter__('outerHTML', function () {
     return stylified;
   }
 
-  a.push('<'+this.nodeName + _stringify(this.attributes)+'>')
+   function _propertify() {
+    var props = [];
+    for (var key in self) {            
+      _isProperty(key) && props.push({name: key, value:self[key]});
+    }    
+    // special className case, if className property is define while 'class' attribute is not then
+    // include class attribute in output
+    self.className && !self.getAttribute('class') && props.push({name:'class', value: self.className})   
+    return props ? _stringify(props) : '';
+  }
+
+  function _isProperty(key) {          
+      var types = ['string','boolean','number']      
+      for (var i=0; i<=types.length;i++) {        
+        if (self.hasOwnProperty(key) && 
+            types[i] === typeof self[key] &&
+            key !== 'nodeName' &&
+            key !== 'className'
+            ) return true;
+      }      
+  }
+
+  a.push('<'+this.nodeName + _propertify() + _stringify(this.attributes)+'>')
 
   a.push(this.innerHTML)
 
