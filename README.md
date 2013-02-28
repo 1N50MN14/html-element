@@ -3,6 +3,8 @@
 A simple HTMLElement shim on the server.
 This is a partial implementation of HTMLElement, to get things like hyperscript working in node.
 
+The current implementation is fully compatible with <a href="https://npmjs.org/package/hyperscript">hyperscript</a>!
+
 Note: adds "document" to globals.
 
 ## Supported methods
@@ -17,14 +19,19 @@ Note: adds "document" to globals.
 - setProperty(name, value)
 - getProperty(name)
 - classList.add(class)
+- innerHTML()
+- outerHTML()
+- textContent()
 
 Setters update existing objects, otherwise create anew; 
 
 ## Properties
-
+- innerHTML
+- outerHTML
 - textContent
 - attribute.value
 - attribute.name
+- everything else
 
 ## TODO / Missing features
 - Your PR to make this a more accurate implementation
