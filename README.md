@@ -19,7 +19,6 @@ Note: adds "document" to globals.
 - getAttribute(name)
 - setProperty(name, value)
 - getProperty(name)
-- classList.add(class)
 - innerHTML()
 - outerHTML()
 - textContent()
