@@ -9,6 +9,8 @@ function Document() {}
 Document.prototype.createTextNode = function(v) {
     var n = new Text();
     n.textContent = v;
+    n.nodeName = '#text'
+    n.nodeType = 3
     return n;
 }
 
@@ -84,6 +86,8 @@ function Element() {
       }
     }
 }
+
+Element.prototype.nodeType = 1;
 
 Element.prototype.appendChild = function(child) {
     child.parentElement = this;
@@ -176,6 +180,7 @@ Element.prototype.__defineGetter__('outerHTML', function () {
         if (self.hasOwnProperty(key) && 
             types[i] === typeof self[key] &&
             key !== 'nodeName' &&
+            key !== 'nodeType' &&
             key !== 'className'
             ) return true;
       }      
@@ -210,6 +215,10 @@ function escapeHTML(s) {
   }
 
 function Text(){}
+
+Text.prototype.nodeType = 3;
+
+Text.prototype.nodeName = '#text';
 
 Text.prototype.__defineGetter__('textContent', function() {
   return escapeHTML(this.value || '');
