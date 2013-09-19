@@ -65,6 +65,7 @@ function Element() {
     this.classList = new classList(this);
     this.childNodes = [];
     this.attributes = [];
+    this.className = '';
 
     this._setProperty = function(arr, obj, key, val) {
       var p = self._getProperty(arr, key);      
@@ -103,6 +104,23 @@ Element.prototype.replaceChild = function(newChild, oldChild) {
         if (child === oldChild)
         self.childNodes[index] = newChild;
     });
+}
+
+Element.prototype.removeChild = function(rChild) {
+    var self = this;
+    this.childNodes.forEach(function(child, index){
+      if (child === rChild) delete self.childNodes[index];
+    })
+}
+
+Element.prototype.insertBefore = function(newChild, existingChild) {
+    var self = this;
+    this.childNodes.forEach(function(child, index){      
+      if (child === existingChild) {
+        index === 0 ?  self.childNodes.unshift(newChild)
+                    :  self.childNodes.splice(index, 0, newChild);
+      }  
+    })
 }
 
 Element.prototype.__defineGetter__('innerHTML', function () {
@@ -148,7 +166,7 @@ Element.prototype.__defineGetter__('outerHTML', function () {
     }    
     // special className case, if className property is define while 'class' attribute is not then
     // include class attribute in output
-    self.className && !self.getAttribute('class') && props.push({name:'class', value: self.className})   
+    self.className.length && !self.getAttribute('class') && props.push({name:'class', value: self.className})   
     return props ? _stringify(props) : '';
   }
 
