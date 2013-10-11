@@ -1,6 +1,7 @@
 global.Document = Document
 global.Node     = Node
 global.Element  = Element
+global.Comment  = Comment
 global.Text     = Text
 global.document = new Document()
 
@@ -20,11 +21,21 @@ Document.prototype.createElement = function(nodeName) {
     return el;
 }
 
+Document.prototype.createComment = function(data) {
+    var el = new Comment()
+    el.data = data
+    return el;
+}
+
+
 function Node () {}
 
 Text.prototype = new Node()
 
 Element.prototype = new Node()
+
+Comment.prototype = new Node()
+
 
 function Style (el) {
   this.el = el;
@@ -228,3 +239,21 @@ Text.prototype.__defineSetter__('textContent', function(v) {
   this.value = v
 })
 
+
+function Comment(){}
+
+Comment.prototype.nodeType = 8;
+
+Comment.prototype.nodeName = '#comment';
+
+Comment.prototype.__defineGetter__('data', function() {
+  return this.value
+})
+
+Comment.prototype.__defineSetter__('data', function(v) {
+  this.value = v
+})
+
+Comment.prototype.__defineGetter__('outerHTML', function() {
+  return '<!--' + escapeHTML(this.value || '') + '-->'
+})

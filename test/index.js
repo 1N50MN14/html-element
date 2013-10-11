@@ -40,3 +40,18 @@ test('create a Text node', function(t){
   t.end();
 })
 
+test('create a Comment node', function(t){
+  var body = document.createElement('body')
+
+  var comment = document.createComment('a comment')
+  body.appendChild(comment)
+
+  t.equal(clean(body.outerHTML), "<body><!--a comment--></body>")
+
+  comment.data = 'still a comment'
+
+  t.equal(clean(body.outerHTML), "<body><!--still a comment--></body>")
+
+  t.end()
+})
+
