@@ -55,6 +55,15 @@ test('create a Comment node', function(t){
   t.end()
 })
 
+test('dataset', function(t){
+
+  var div = document.createElement('div')
+  div.dataset['id'] = '123'
+  t.equal(clean(div.outerHTML), '<div data-id="123"></div>')
+
+  t.end()
+})
+
 test('basic set innerHTML', function(t){
 
   var div = document.createElement('div')

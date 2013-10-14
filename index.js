@@ -78,6 +78,7 @@ function Element() {
     this.classList = new classList(this);
     this.childNodes = [];
     this.attributes = [];
+    this.dataset = {};
     this.className = '';
 
     this._setProperty = function(arr, obj, key, val) {
@@ -177,6 +178,14 @@ Element.prototype.__defineGetter__('outerHTML', function () {
     return stylified;
   }
 
+  function _dataify(data) {      
+    var attr = [], value;  
+    Object.keys(data).forEach(function(name){
+      attr.push('data-'+name+'='+'\"'+escapeAttribute(data[name])+'\"');
+    })
+    return attr.length ? ' '+attr.join(" ") : '';
+  }
+
    function _propertify() {
     var props = [];
     for (var key in self) {            
@@ -200,13 +209,13 @@ Element.prototype.__defineGetter__('outerHTML', function () {
       }      
   }
 
-  a.push('<'+this.nodeName + _propertify() + _stringify(this.attributes)+'>')
+  a.push('<'+this.nodeName + _propertify() + _stringify(this.attributes) + _dataify(this.dataset) +'>')
 
   a.push(this.innerHTML)
 
   a.push('</'+this.nodeName+'>')
 
-  return a.join('\n')
+  return a.join('')
 })
 
 Element.prototype.__defineGetter__('textContent', function () {
