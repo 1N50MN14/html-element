@@ -164,7 +164,7 @@ Element.prototype.__defineGetter__('outerHTML', function () {
     var attr = [], value;        
     arr.forEach(function(a){
       value = ('style' != a.name) ? a.value : _stylify(self.style.styles);
-      attr.push(a.name+'='+'\"'+value+'\"');
+      attr.push(a.name+'='+'\"'+escapeAttribute(value)+'\"');
     })
     return attr.length ? ' '+attr.join(" ") : '';
   }    
@@ -222,11 +222,13 @@ Element.prototype.addEventListener = function(t, l) {}
 function escapeHTML(s) {
   return String(s)
       .replace(/&/g, '&amp;')
-      .replace(/"/g, '&#x27;')
-      .replace(/'/g, '&quot;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
-  }
+}
+
+function escapeAttribute(s) {
+  return escapeHTML(s).replace(/"/g, '&quot;')
+}
 
 function Text(){}
 

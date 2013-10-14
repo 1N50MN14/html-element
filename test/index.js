@@ -71,3 +71,16 @@ test('basic set innerHTML', function(t){
   t.end()
 })
 
+test('correct html and attribute escaping', function(t){
+
+  var div = document.createElement('div')
+  div.setAttribute('title', "It's <bad> & \"scary\"")
+  div.appendChild(document.createTextNode("It's text with <bad> & not so bad characters in \"it\""))
+
+  t.equal(clean(div.outerHTML), 
+    '<div title="It\'s &lt;bad&gt; &amp; &quot;scary&quot;">' +
+    'It\'s text with &lt;bad&gt; &amp; not so bad characters in "it"</div>'
+  )
+
+  t.end()
+})
