@@ -139,18 +139,21 @@ Element.prototype.insertBefore = function(newChild, existingChild) {
 }
 
 Element.prototype.__defineGetter__('innerHTML', function () {
-  var s = ''
-  this.childNodes.forEach(function (e) {
-    s += (e.outerHTML || e.textContent)
-  })
-  return s
+    // regurgitate set innerHTML
+    var s = this.childNodes.html || ''
+    this.childNodes.forEach(function (e) {
+      s += (e.outerHTML || e.textContent)
+    })
+    return s
 })
 
 Element.prototype.__defineSetter__('innerHTML', function (v) {
-  //only handle this simple case that doesn't need parsing
-  //this case is useful... parsing is hard and will need added deps!
-  if(v == '')
+    //only handle this simple case that doesn't need parsing
+    //this case is useful... parsing is hard and will need added deps!
     this.childNodes.length = 0
+
+    // hack to preserve set innerHTML - no parsing just regurgitation
+    this.childNodes.html = v
 })
 
 

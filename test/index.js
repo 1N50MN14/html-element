@@ -55,3 +55,19 @@ test('create a Comment node', function(t){
   t.end()
 })
 
+test('basic set innerHTML', function(t){
+
+  var div = document.createElement('div')
+  var span = document.createElement('span')
+
+  div.appendChild(span)
+
+  t.equal(clean(div.outerHTML), '<div><span></span></div>')
+
+  div.innerHTML = '<strong>Replaced content</strong>'
+
+  t.equal(clean(div.outerHTML), '<div><strong>Replaced content</strong></div>')
+
+  t.end()
+})
+
