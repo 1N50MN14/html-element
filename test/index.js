@@ -93,3 +93,25 @@ test('correct html and attribute escaping', function(t){
 
   t.end()
 })
+
+test('whitespace preserved', function(t){
+  var body = document.createElement('body')
+  body.appendChild(document.createTextNode('\n  '))
+  var div = document.createElement('div')
+  div.appendChild(document.createTextNode('The con'))
+  var em = document.createElement('em')
+  em.appendChild(document.createTextNode('tent'))
+  div.appendChild(em)
+  div.appendChild(document.createTextNode(' of the div'))
+  body.appendChild(div)
+  body.appendChild(document.createTextNode('\n'))
+
+  t.equal(body.outerHTML,
+    "<body>\n" +
+    "  <div>The con<em>tent</em> of the div</div>\n" +
+    "</body>"
+  )
+
+  t.end()
+
+})
