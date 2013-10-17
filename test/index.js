@@ -55,3 +55,63 @@ test('create a Comment node', function(t){
   t.end()
 })
 
+test('dataset', function(t){
+
+  var div = document.createElement('div')
+  div.dataset['id'] = '123'
+  t.equal(clean(div.outerHTML), '<div data-id="123"></div>')
+
+  t.end()
+})
+
+test('basic set innerHTML', function(t){
+
+  var div = document.createElement('div')
+  var span = document.createElement('span')
+
+  div.appendChild(span)
+
+  t.equal(clean(div.outerHTML), '<div><span></span></div>')
+
+  div.innerHTML = '<strong>Replaced content</strong>'
+
+  t.equal(clean(div.outerHTML), '<div><strong>Replaced content</strong></div>')
+
+  t.end()
+})
+
+test('correct html and attribute escaping', function(t){
+
+  var div = document.createElement('div')
+  div.setAttribute('title', "It's <bad> & \"scary\"")
+  div.appendChild(document.createTextNode("It's text with <bad> & not so bad characters in \"it\""))
+
+  t.equal(clean(div.outerHTML), 
+    '<div title="It\'s &lt;bad&gt; &amp; &quot;scary&quot;">' +
+    'It\'s text with &lt;bad&gt; &amp; not so bad characters in "it"</div>'
+  )
+
+  t.end()
+})
+
+test('whitespace preserved', function(t){
+  var body = document.createElement('body')
+  body.appendChild(document.createTextNode('\n  '))
+  var div = document.createElement('div')
+  div.appendChild(document.createTextNode('The con'))
+  var em = document.createElement('em')
+  em.appendChild(document.createTextNode('tent'))
+  div.appendChild(em)
+  div.appendChild(document.createTextNode(' of the div'))
+  body.appendChild(div)
+  body.appendChild(document.createTextNode('\n'))
+
+  t.equal(body.outerHTML,
+    "<body>\n" +
+    "  <div>The con<em>tent</em> of the div</div>\n" +
+    "</body>"
+  )
+
+  t.end()
+
+})

@@ -78,6 +78,7 @@ function Element() {
     this.classList = new classList(this);
     this.childNodes = [];
     this.attributes = [];
+    this.dataset = {};
     this.className = '';
 
     this._setProperty = function(arr, obj, key, val) {
@@ -139,18 +140,21 @@ Element.prototype.insertBefore = function(newChild, existingChild) {
 }
 
 Element.prototype.__defineGetter__('innerHTML', function () {
-  var s = ''
-  this.childNodes.forEach(function (e) {
-    s += (e.outerHTML || e.textContent)
-  })
-  return s
+    // regurgitate set innerHTML
+    var s = this.childNodes.html || ''
+    this.childNodes.forEach(function (e) {
+      s += (e.outerHTML || e.textContent)
+    })
+    return s
 })
 
 Element.prototype.__defineSetter__('innerHTML', function (v) {
-  //only handle this simple case that doesn't need parsing
-  //this case is useful... parsing is hard and will need added deps!
-  if(v == '')
+    //only handle this simple case that doesn't need parsing
+    //this case is useful... parsing is hard and will need added deps!
     this.childNodes.length = 0
+
+    // hack to preserve set innerHTML - no parsing just regurgitation
+    this.childNodes.html = v
 })
 
 
@@ -161,7 +165,7 @@ Element.prototype.__defineGetter__('outerHTML', function () {
     var attr = [], value;        
     arr.forEach(function(a){
       value = ('style' != a.name) ? a.value : _stylify(self.style.styles);
-      attr.push(a.name+'='+'\"'+value+'\"');
+      attr.push(a.name+'='+'\"'+escapeAttribute(value)+'\"');
     })
     return attr.length ? ' '+attr.join(" ") : '';
   }    
@@ -172,6 +176,14 @@ Element.prototype.__defineGetter__('outerHTML', function () {
       stylified+=s.name+':'+s.value+';';
     })
     return stylified;
+  }
+
+  function _dataify(data) {      
+    var attr = [], value;  
+    Object.keys(data).forEach(function(name){
+      attr.push('data-'+name+'='+'\"'+escapeAttribute(data[name])+'\"');
+    })
+    return attr.length ? ' '+attr.join(" ") : '';
   }
 
    function _propertify() {
@@ -197,13 +209,13 @@ Element.prototype.__defineGetter__('outerHTML', function () {
       }      
   }
 
-  a.push('<'+this.nodeName + _propertify() + _stringify(this.attributes)+'>')
+  a.push('<'+this.nodeName + _propertify() + _stringify(this.attributes) + _dataify(this.dataset) +'>')
 
   a.push(this.innerHTML)
 
   a.push('</'+this.nodeName+'>')
 
-  return a.join('\n')
+  return a.join('')
 })
 
 Element.prototype.__defineGetter__('textContent', function () {
@@ -219,11 +231,13 @@ Element.prototype.addEventListener = function(t, l) {}
 function escapeHTML(s) {
   return String(s)
       .replace(/&/g, '&amp;')
-      .replace(/"/g, '&#x27;')
-      .replace(/'/g, '&quot;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
-  }
+}
+
+function escapeAttribute(s) {
+  return escapeHTML(s).replace(/"/g, '&quot;')
+}
 
 function Text(){}
 
