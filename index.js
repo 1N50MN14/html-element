@@ -43,10 +43,7 @@ function Style (el) {
 }
 
 Style.prototype.setProperty = function (n,v) {
-  var attr = this.el.getAttribute('style');
-
-  !attr && this.el.setAttribute('style', '');
-  this.el._setProperty(this.styles, {name: n, value:v});
+    this.el._setProperty(this.styles, {name: n, value:v});
 }
 
 Style.prototype.getProperty = function(n) {    
@@ -129,11 +126,19 @@ Element.prototype.appendChild = function(child) {
 }
 
 Element.prototype.setAttribute = function (n, v) {
+  if (n == 'style'){
+    this.style.cssText = v
+  } else {
     this._setProperty(this.attributes, Attribute, n, v);
+  }
 }
 
 Element.prototype.getAttribute = function(n) {
+  if (n == 'style'){
+    return this.style.cssText
+  } else {
     return this._getProperty(this.attributes, n);
+  }
 }
 
 Element.prototype.replaceChild = function(newChild, oldChild) {
