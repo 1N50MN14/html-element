@@ -43,15 +43,34 @@ function Style (el) {
 }
 
 Style.prototype.setProperty = function (n,v) {
-  var attr = this.el.getAttribute('style');
-
-  !attr && this.el.setAttribute('style', '');
-  this.el._setProperty(this.styles, {name: n, value:v});
+    this.el._setProperty(this.styles, {name: n, value:v});
 }
 
 Style.prototype.getProperty = function(n) {    
     return this.el._getProperty(this.styles, n);
 }
+
+Style.prototype.__defineGetter__('cssText', function () {
+    var stylified = '';
+    this.styles.forEach(function(s){
+      stylified+=s.name+':'+s.value+';';
+    })
+    return stylified;
+})
+
+Style.prototype.__defineSetter__('cssText', function (v) {
+    this.styles.length = 0
+
+    // parse cssText and set style attributes
+    v.split(';').forEach(function(part){
+      var splitPoint = part.indexOf(':')
+      if (splitPoint){
+        var key = part.slice(0, splitPoint).trim()
+        var value = part.slice(splitPoint+1).trim()
+        this.setProperty(key, value)
+      }
+    }, this)
+})
 
 function classList(el) {  
   this.el = el;
@@ -107,11 +126,19 @@ Element.prototype.appendChild = function(child) {
 }
 
 Element.prototype.setAttribute = function (n, v) {
+  if (n == 'style'){
+    this.style.cssText = v
+  } else {
     this._setProperty(this.attributes, Attribute, n, v);
+  }
 }
 
 Element.prototype.getAttribute = function(n) {
+  if (n == 'style'){
+    return this.style.cssText
+  } else {
     return this._getProperty(this.attributes, n);
+  }
 }
 
 Element.prototype.replaceChild = function(newChild, oldChild) {
@@ -164,18 +191,10 @@ Element.prototype.__defineGetter__('outerHTML', function () {
   function _stringify(arr) {
     var attr = [], value;        
     arr.forEach(function(a){
-      value = ('style' != a.name) ? a.value : _stylify(self.style.styles);
+      value = ('style' != a.name) ? a.value : self.style.cssText;
       attr.push(a.name+'='+'\"'+escapeAttribute(value)+'\"');
     })
     return attr.length ? ' '+attr.join(" ") : '';
-  }    
-
-  function _stylify(styles) {      
-    var stylified = '';
-    styles.forEach(function(s){
-      stylified+=s.name+':'+s.value+';';
-    })
-    return stylified;
   }
 
   function _dataify(data) {      

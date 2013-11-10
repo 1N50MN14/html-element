@@ -115,3 +115,27 @@ test('whitespace preserved', function(t){
   t.end()
 
 })
+
+test('set/get style.cssText', function(t){
+  var div = document.createElement('div')
+
+  div.style.setProperty('background', 'green')
+  t.equal(div.style.cssText, 'background:green;')
+
+  div.style.cssText = 'color: red; padding: 8px'
+  t.equal(div.style.cssText, 'color:red;padding:8px;')
+
+  t.end()
+})
+
+test('style set/getAttribute', function(t){
+  var div = document.createElement('div')
+
+  div.style.setProperty('background', 'green')
+  t.equal(div.getAttribute('style'), 'background:green;')
+
+  div.setAttribute('style', 'color: red; padding: 8px')
+  t.equal(div.getAttribute('style'), 'color:red;padding:8px;')
+
+  t.end()
+})
