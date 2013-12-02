@@ -123,6 +123,7 @@ Element.prototype.nodeType = 1;
 Element.prototype.appendChild = function(child) {
     child.parentElement = this;
     this.childNodes.push(child);
+    return child;
 }
 
 Element.prototype.setAttribute = function (n, v) {
@@ -143,17 +144,26 @@ Element.prototype.getAttribute = function(n) {
 
 Element.prototype.replaceChild = function(newChild, oldChild) {
     var self = this;
+    var replaced = false;
     this.childNodes.forEach(function(child, index){
-        if (child === oldChild)
-        self.childNodes[index] = newChild;
+        if (child === oldChild) {
+            self.childNodes[index] = newChild;
+            replaced = true;
+        }
     });
+    if (replaced) return oldChild;
 }
 
 Element.prototype.removeChild = function(rChild) {
     var self = this;
+    var removed = true;
     this.childNodes.forEach(function(child, index){
-      if (child === rChild) delete self.childNodes[index];
+        if (child === rChild) {
+            delete self.childNodes[index];
+            removed = true;
+        }
     })
+    if (removed) return rChild;
 }
 
 Element.prototype.insertBefore = function(newChild, existingChild) {
@@ -164,6 +174,7 @@ Element.prototype.insertBefore = function(newChild, existingChild) {
                     :  self.childNodes.splice(index, 0, newChild);
       }  
     })
+    return newChild;
 }
 
 Element.prototype.__defineGetter__('innerHTML', function () {
