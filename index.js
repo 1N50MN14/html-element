@@ -5,6 +5,8 @@ global.Comment  = Comment
 global.Text     = Text
 global.document = new Document()
 
+var ClassList = require('class-list')
+
 function Document() {}
 
 Document.prototype.createTextNode = function(v) {
@@ -72,16 +74,6 @@ Style.prototype.__defineSetter__('cssText', function (v) {
     }, this)
 })
 
-function classList(el) {  
-  this.el = el;
-}
-
-classList.prototype.add = function(cls) {    
-  !this.el.getAttribute('class') && this.el.setAttribute('class','');  
-  var v = this.el.getAttribute('class').value;
-  this.el.setAttribute('class',v.length ? v+cls+' ' : v+cls);
-}
-
 function Attribute(name, value){  
   if (name) {
     this.name = name;
@@ -94,7 +86,7 @@ function Element() {
     var self = this;
 
     this.style = new Style(this)
-    this.classList = new classList(this);
+    this.classList = ClassList(this);
     this.childNodes = [];
     this.attributes = [];
     this.dataset = {};
