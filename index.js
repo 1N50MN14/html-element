@@ -169,6 +169,21 @@ Element.prototype.insertBefore = function(newChild, existingChild) {
     return newChild;
 }
 
+Element.prototype.addEventListener = function(type, listener, useCapture, wantsUntrusted) {
+  // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.addEventListener
+  // There is an implementation there but probably not worth it.
+}
+
+Element.prototype.removeEventListener = function(type, listener, useCapture) {
+  // https://developer.mozilla.org/en/docs/Web/API/EventTarget.removeEventListener
+  // There is an implementation there but probably not worth it.
+}
+
+Element.prototype.insertAdjacentHTML = function(position, text) {
+  // https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
+  // Not too much work to implement similar to innerHTML below.
+}
+
 Element.prototype.__defineGetter__('innerHTML', function () {
     // regurgitate set innerHTML
     var s = this.childNodes.html || ''
