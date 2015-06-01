@@ -205,6 +205,23 @@ Element.prototype.__defineSetter__('innerHTML', function (v) {
 
 Element.prototype.__defineGetter__('outerHTML', function () {
   var a = [],  self = this;
+  var VOID_ELEMENTS = {
+    AREA: true,
+    BASE: true,
+    BR: true,
+    COL: true,
+    EMBED: true,
+    HR: true,
+    IMG: true,
+    INPUT: true,
+    KEYGEN: true,
+    LINK: true,
+    META: true,
+    PARAM: true,
+    SOURCE: true,
+    TRACK: true,
+    WBR: true
+  };
   
   function _stringify(arr) {
     var attr = [], value;        
@@ -247,10 +264,11 @@ Element.prototype.__defineGetter__('outerHTML', function () {
   }
 
   a.push('<'+this.nodeName + _propertify() + _stringify(this.attributes) + _dataify(this.dataset) +'>')
-
-  a.push(this.innerHTML)
-
-  a.push('</'+this.nodeName+'>')
+  
+  if (!VOID_ELEMENTS[this.nodeName.toUpperCase()]){
+    a.push(this.innerHTML)
+    a.push('</'+this.nodeName+'>')
+  }
 
   return a.join('')
 })
