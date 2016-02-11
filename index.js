@@ -263,7 +263,9 @@ Element.prototype.__defineGetter__('outerHTML', function () {
       }      
   }
 
-  a.push('<'+this.nodeName + _propertify() + _stringify(this.attributes) + _dataify(this.dataset) +'>')
+  var attrs = this.style.cssText ? this.attributes.concat([{name: 'style'}]) : this.attributes;
+
+  a.push('<'+this.nodeName + _propertify() + _stringify(attrs) + _dataify(this.dataset) +'>')
   
   if (!VOID_ELEMENTS[this.nodeName.toUpperCase()]){
     a.push(this.innerHTML)
