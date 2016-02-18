@@ -139,3 +139,15 @@ test('style set/getAttribute', function(t){
 
   t.end()
 })
+
+test('render outerHTML with inline style', function(t){
+  var div = document.createElement('div')
+
+  div.style.setProperty('background', 'green')
+  t.equal(div.outerHTML, '<div style="background:green;"></div>')
+
+  div.style.cssText = 'color: red; padding: 8px'
+  t.equal(div.outerHTML, '<div style="color:red;padding:8px;"></div>')
+
+  t.end()
+})
