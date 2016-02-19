@@ -14,7 +14,7 @@ test('create a Text node', function(t){
   t.equal(clean(h1.textContent), "")
   t.equal(clean(h1.innerHTML), "")
 
-  h1.setAttribute('class', 'myclass');      
+  h1.setAttribute('class', 'myclass');
   t.type(h1.toString(), "string", "type of h1 should be string")
 
   t.equal(clean(h1.outerHTML), '<h1 class="myclass"></h1>')
@@ -86,13 +86,25 @@ test('correct html and attribute escaping', function(t){
   div.setAttribute('title', "It's <bad> & \"scary\"")
   div.appendChild(document.createTextNode("It's text with <bad> & not so bad characters in \"it\""))
 
-  t.equal(clean(div.outerHTML), 
+  t.equal(clean(div.outerHTML),
     '<div title="It\'s &lt;bad&gt; &amp; &quot;scary&quot;">' +
     'It\'s text with &lt;bad&gt; &amp; not so bad characters in "it"</div>'
   )
 
   t.end()
 })
+
+test('correct attribute escaping', function(t){
+  var div = document.createElement('div')
+  div.style.setProperty('background-image', 'url("test.png")')
+  t.equal(div.outerHTML, '<div style="background-image:url("test.png");"></div>')
+
+  var div2 = document.createElement('div')
+  div2.style.setProperty('background-image', "url('test.png')")
+  t.equal(div2.outerHTML, '<div style="background-image:url(\'test.png\');"></div>')
+
+  t.end()
+});
 
 test('whitespace preserved', function(t){
   var body = document.createElement('body')
