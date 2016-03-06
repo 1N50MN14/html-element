@@ -296,6 +296,8 @@ function escapeAttribute(s) {
   return escapeHTML(s).replace(/"/g, '&quot;')
 }
 
+Element.prototype.nodeValue = null;
+
 function Text(){}
 
 Text.prototype.nodeType = 3;
@@ -310,6 +312,13 @@ Text.prototype.__defineSetter__('textContent', function(v) {
   this.value = v
 })
 
+Text.prototype.__defineGetter__('nodeValue', function() {
+  return escapeHTML(this.value || '');
+})
+
+Text.prototype.__defineSetter__('nodeValue', function(v) {
+  this.value = v
+})
 
 function Comment(){}
 
@@ -327,4 +336,12 @@ Comment.prototype.__defineSetter__('data', function(v) {
 
 Comment.prototype.__defineGetter__('outerHTML', function() {
   return '<!--' + escapeHTML(this.value || '') + '-->'
+})
+
+Comment.prototype.__defineGetter__('nodeValue', function() {
+  return escapeHTML(this.value || '');
+})
+
+Comment.prototype.__defineSetter__('nodeValue', function(v) {
+  this.value = v
 })
