@@ -101,7 +101,7 @@ function Element() {
       arr.push('function' === typeof obj ? new obj(key.toLowerCase(),val) : obj);
     }
 
-    this._getProperty = function(arr, key) {
+    this._getProperty = function (arr, key) {
       if (!key) return;
       key = key.toLowerCase();
       for (var i=0;i<arr.length;i++) {
@@ -112,7 +112,7 @@ function Element() {
 
 Element.prototype.nodeType = 1;
 
-Element.prototype.appendChild = function(child) {
+Element.prototype.appendChild = function (child) {
     child.parentElement = this;
     this.childNodes.push(child);
     return child;
@@ -126,7 +126,7 @@ Element.prototype.setAttribute = function (n, v) {
   }
 }
 
-Element.prototype.getAttribute = function(n) {
+Element.prototype.getAttribute = function (n) {
   if (n == 'style'){
     return this.style.cssText
   } else {
@@ -134,8 +134,12 @@ Element.prototype.getAttribute = function(n) {
   }
 }
 
-Element.prototype.removeAttribute = function(n) {
-  delete this.attributes[n];
+Element.prototype.removeAttribute = function (n) {
+  if (n === 'class') {
+    delete this.className;
+  } else {
+    delete this.attributes[n];
+  }
 }
 
 Element.prototype.replaceChild = function(newChild, oldChild) {
