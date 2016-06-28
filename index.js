@@ -138,7 +138,12 @@ Element.prototype.removeAttribute = function (n) {
   if (n === 'class') {
     delete this.className;
   } else {
-    delete this.attributes[n];
+    for (var i = 0, len = this.attributes.length; i < len; i++) {
+      if (this.attributes[i].name === n) {
+        this.attributes.splice(i, 1);
+        break;
+      }
+    }
   }
 }
 
