@@ -167,3 +167,19 @@ test('removeAttribute', function(t){
   t.equal('className' in div, false)
   t.end()
 })
+
+test('insertBefore', function(t){
+  var div = document.createElement('div')
+  var div1 = document.createElement('div')
+  var div2 = document.createElement('div')
+  div.appendChild(div1)
+  div.appendChild(div2)
+  var children = div.childNodes
+  t.same(children[0], div1)
+  t.same(children[1], div2)
+  var div3 = document.createElement('div')
+  div.insertBefore(div3, div2)
+  t.same(children[1], div3)
+  t.same(children[2], div2)
+  t.end()
+})
