@@ -349,9 +349,7 @@ Comment.prototype.__defineSetter__('nodeValue', function(v) {
 })
 
 function defineParentNode (obj) {
-  Object.defineProperty(obj, 'parentNode', {
-    get: function () { return this.parentElement }
-  })
+  obj.__defineGetter__('parentNode', function () { return this.parentElement });
 }
 
 defineParentNode(Element.prototype)
