@@ -134,6 +134,10 @@ Element.prototype.getAttribute = function(n) {
   }
 }
 
+Element.prototype.removeAttribute = function(n) {
+  delete this.attributes[n];
+}
+
 Element.prototype.replaceChild = function(newChild, oldChild) {
     var self = this;
     var replaced = false;
