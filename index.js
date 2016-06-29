@@ -48,7 +48,7 @@ Style.prototype.setProperty = function (n,v) {
     this.el._setProperty(this.styles, {name: n, value:v});
 }
 
-Style.prototype.getProperty = function(n) {    
+Style.prototype.getProperty = function(n) {
     return this.el._getProperty(this.styles, n);
 }
 
@@ -74,11 +74,11 @@ Style.prototype.__defineSetter__('cssText', function (v) {
     }, this)
 })
 
-function Attribute(name, value){  
+function Attribute(name, value){
   if (name) {
     this.name = name;
     this.value = value ? value : '';
-  }  
+  }
 }
 
 
@@ -93,7 +93,7 @@ function Element() {
     this.className = '';
 
     this._setProperty = function(arr, obj, key, val) {
-      var p = self._getProperty(arr, key);      
+      var p = self._getProperty(arr, key);
       if (p) {
         p.value = val;
         return;
@@ -101,7 +101,7 @@ function Element() {
       arr.push('function' === typeof obj ? new obj(key.toLowerCase(),val) : obj);
     }
 
-    this._getProperty = function(arr, key) {
+    this._getProperty = function (arr, key) {
       if (!key) return;
       key = key.toLowerCase();
       for (var i=0;i<arr.length;i++) {
@@ -112,7 +112,7 @@ function Element() {
 
 Element.prototype.nodeType = 1;
 
-Element.prototype.appendChild = function(child) {
+Element.prototype.appendChild = function (child) {
     child.parentElement = this;
     this.childNodes.push(child);
     return child;
@@ -126,11 +126,24 @@ Element.prototype.setAttribute = function (n, v) {
   }
 }
 
-Element.prototype.getAttribute = function(n) {
+Element.prototype.getAttribute = function (n) {
   if (n == 'style'){
     return this.style.cssText
   } else {
     return this._getProperty(this.attributes, n);
+  }
+}
+
+Element.prototype.removeAttribute = function (n) {
+  if (n === 'class') {
+    delete this.className;
+  } else {
+    for (var i = 0, len = this.attributes.length; i < len; i++) {
+      if (this.attributes[i].name === n) {
+        this.attributes.splice(i, 1);
+        break;
+      }
+    }
   }
 }
 
@@ -151,22 +164,24 @@ Element.prototype.removeChild = function(rChild) {
     var removed = true;
     this.childNodes.forEach(function(child, index){
         if (child === rChild) {
-            delete self.childNodes[index];
-            removed = true;
+          // use splice to keep a clean childNode array
+          self.childNodes.splice(index, 1)
+          removed = true;
         }
     })
     if (removed) return rChild;
 }
 
-Element.prototype.insertBefore = function(newChild, existingChild) {
-    var self = this;
-    this.childNodes.forEach(function(child, index){      
-      if (child === existingChild) {
-        index === 0 ?  self.childNodes.unshift(newChild)
-                    :  self.childNodes.splice(index, 0, newChild);
-      }  
-    })
-    return newChild;
+Element.prototype.insertBefore = function (newChild, existingChild) {
+  var childNodes = this.childNodes;
+  for (var i = 0, len = childNodes.length; i < len; i++) {
+    var child = childNodes[i];
+    if (child === existingChild) {
+      i === 0 ? childNodes.unshift(newChild) : childNodes.splice(i, 0, newChild);
+      break;
+    }
+  }
+  return newChild;
 }
 
 Element.prototype.addEventListener = function(type, listener, useCapture, wantsUntrusted) {
@@ -222,9 +237,9 @@ Element.prototype.__defineGetter__('outerHTML', function () {
     TRACK: true,
     WBR: true
   };
-  
+
   function _stringify(arr) {
-    var attr = [], value;        
+    var attr = [], value;
     arr.forEach(function(a){
       value = ('style' != a.name) ? a.value : self.style.cssText;
       attr.push(a.name+'='+'\"'+escapeAttribute(value)+'\"');
@@ -232,8 +247,8 @@ Element.prototype.__defineGetter__('outerHTML', function () {
     return attr.length ? ' '+attr.join(" ") : '';
   }
 
-  function _dataify(data) {      
-    var attr = [], value;  
+  function _dataify(data) {
+    var attr = [], value;
     Object.keys(data).forEach(function(name){
       attr.push('data-'+name+'='+'\"'+escapeAttribute(data[name])+'\"');
     })
@@ -242,31 +257,31 @@ Element.prototype.__defineGetter__('outerHTML', function () {
 
    function _propertify() {
     var props = [];
-    for (var key in self) {            
+    for (var key in self) {
       _isProperty(key) && props.push({name: key, value:self[key]});
-    }    
+    }
     // special className case, if className property is define while 'class' attribute is not then
     // include class attribute in output
-    self.className.length && !self.getAttribute('class') && props.push({name:'class', value: self.className})   
+    self.className.length && !self.getAttribute('class') && props.push({name:'class', value: self.className})
     return props ? _stringify(props) : '';
   }
 
-  function _isProperty(key) {          
-      var types = ['string','boolean','number']      
-      for (var i=0; i<=types.length;i++) {        
-        if (self.hasOwnProperty(key) && 
+  function _isProperty(key) {
+      var types = ['string','boolean','number']
+      for (var i=0; i<=types.length;i++) {
+        if (self.hasOwnProperty(key) &&
             types[i] === typeof self[key] &&
             key !== 'nodeName' &&
             key !== 'nodeType' &&
             key !== 'className'
             ) return true;
-      }      
+      }
   }
 
   var attrs = this.style.cssText ? this.attributes.concat([{name: 'style'}]) : this.attributes;
 
   a.push('<'+this.nodeName + _propertify() + _stringify(attrs) + _dataify(this.dataset) +'>')
-  
+
   if (!VOID_ELEMENTS[this.nodeName.toUpperCase()]){
     a.push(this.innerHTML)
     a.push('</'+this.nodeName+'>')
@@ -345,3 +360,12 @@ Comment.prototype.__defineGetter__('nodeValue', function() {
 Comment.prototype.__defineSetter__('nodeValue', function(v) {
   this.value = v
 })
+
+function defineParentNode (obj) {
+  obj.__defineGetter__('parentNode', function () { return this.parentElement });
+}
+
+defineParentNode(Element.prototype)
+defineParentNode(Comment.prototype)
+defineParentNode(Text.prototype)
+defineParentNode(Node.prototype)
