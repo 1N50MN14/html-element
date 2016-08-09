@@ -140,6 +140,18 @@ test('style set/getAttribute', function(t){
   t.end()
 })
 
+test('non style set/getAttribute', function(t){
+  var input = document.createElement('input')
+
+  t.equal(input.getAttribute('value'), null, 'should return null if attribute does not exist')
+  input.setAttribute('value', 'testvalue')
+  t.equal(input.getAttribute('value'), 'testvalue')
+  input.setAttribute('value', '')
+  t.equal(input.getAttribute('value'), '', 'handles empty string')
+
+  t.end()
+})
+
 test('render outerHTML with inline style', function(t){
   var div = document.createElement('div')
 

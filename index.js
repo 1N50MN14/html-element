@@ -130,7 +130,8 @@ Element.prototype.getAttribute = function (n) {
   if (n == 'style'){
     return this.style.cssText
   } else {
-    return this._getProperty(this.attributes, n);
+    var result = this._getProperty(this.attributes, n);
+    return result && typeof result.value === 'string' ? result.value : null;
   }
 }
 
