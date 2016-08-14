@@ -335,6 +335,10 @@ Text.prototype.__defineSetter__('nodeValue', function(v) {
   this.value = v
 })
 
+Text.prototype.replaceData = function(offset, length, str) {
+  this.value = this.value.slice(0, offset) + str + this.value.slice(offset + length);
+};
+
 function Comment(){}
 
 Comment.prototype.nodeType = 8;
