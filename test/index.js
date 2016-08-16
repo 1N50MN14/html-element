@@ -144,10 +144,13 @@ test('non style set/getAttribute', function(t){
   var input = document.createElement('input')
 
   t.equal(input.getAttribute('value'), null, 'should return null if attribute does not exist')
-  input.setAttribute('value', 'testvalue')
-  t.equal(input.getAttribute('value'), 'testvalue')
-  input.setAttribute('value', '')
-  t.equal(input.getAttribute('value'), '', 'handles empty string')
+  input.setAttribute('someattribute', 'testvalue')
+  t.equal(input.getAttribute('someattribute'), 'testvalue')
+  input.setAttribute('someattribute', '')
+  t.equal(input.getAttribute('someattribute'), '', 'handles empty string')
+  input.setAttribute('someattribute', false)
+  t.equal(typeof input.getAttribute('someattribute'), 'string', 'should return strings')
+  t.equal(input.getAttribute('someattribute'), 'false', 'should handle booleans')
 
   t.end()
 })
