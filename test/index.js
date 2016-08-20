@@ -177,6 +177,14 @@ test('render outerHTML with inline style', function(t){
   t.end()
 })
 
+test('outerHTML should include only HTML attributes', function(t) {
+  var a = document.createElement('a')
+  a.href = '/link'
+  a.foo = 'bar'
+  t.equal(a.outerHTML, '<a href="/link"></a>')
+  t.end()
+})
+
 test('removeAttribute', function(t){
   var div = document.createElement('div')
   div.setAttribute('data-id', 100)
