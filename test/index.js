@@ -40,6 +40,16 @@ test('create a Text node', function(t){
   t.end();
 })
 
+test('Text.replaceData', function(t) {
+  var tnode = document.createTextNode('wombats')
+
+  t.equal(tnode.textContent, 'wombats');
+  tnode.replaceData(2, 3, 'tsi');
+  t.equal(tnode.textContent, 'wotsits');
+
+  t.end();
+});
+
 test('create a Comment node', function(t){
   var body = document.createElement('body')
 
