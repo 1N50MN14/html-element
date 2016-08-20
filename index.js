@@ -6,6 +6,7 @@ global.Text     = Text
 global.document = new Document()
 
 var ClassList = require('class-list')
+var isStandardAttribute = require('./attributes-elements').isStandardAttribute;
 
 function Document() {}
 
@@ -256,7 +257,7 @@ Element.prototype.__defineGetter__('outerHTML', function () {
     return attr.length ? ' '+attr.join(" ") : '';
   }
 
-   function _propertify() {
+  function _propertify() {
     var props = [];
     for (var key in self) {
       _isProperty(key) && props.push({name: key, value:self[key]});
@@ -268,15 +269,9 @@ Element.prototype.__defineGetter__('outerHTML', function () {
   }
 
   function _isProperty(key) {
-      var types = ['string','boolean','number']
-      for (var i=0; i<=types.length;i++) {
-        if (self.hasOwnProperty(key) &&
-            types[i] === typeof self[key] &&
-            key !== 'nodeName' &&
-            key !== 'nodeType' &&
-            key !== 'className'
-            ) return true;
-      }
+    return self.hasOwnProperty(key) &&
+      ['string', 'boolean', 'number'].indexOf(typeof self[key]) !== -1 &&
+      isStandardAttribute(key, self.nodeName);
   }
 
   var attrs = this.style.cssText ? this.attributes.concat([{name: 'style'}]) : this.attributes;
