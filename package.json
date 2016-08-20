@@ -7,7 +7,7 @@
     "url": "git://github.com/1N50MN14/html-element.git"
   },
   "devDependencies": {
-    "tap": "~0.4.0"
+    "tap": "^6.3.0"
   },
   "author": "ins0mnia <ayman.mackouly@gmail.com> (http://github.com/1N50MN14)",
   "license": "MIT",
