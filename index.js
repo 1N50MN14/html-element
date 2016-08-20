@@ -95,10 +95,10 @@ function Element() {
     this._setProperty = function(arr, obj, key, val) {
       var p = self._getProperty(arr, key);
       if (p) {
-        p.value = val;
+        p.value = String(val);
         return;
       }
-      arr.push('function' === typeof obj ? new obj(key.toLowerCase(),val) : obj);
+      arr.push('function' === typeof obj ? new obj(key.toLowerCase(),String(val)) : obj);
     }
 
     this._getProperty = function (arr, key) {
@@ -130,7 +130,8 @@ Element.prototype.getAttribute = function (n) {
   if (n == 'style'){
     return this.style.cssText
   } else {
-    return this._getProperty(this.attributes, n);
+    var result = this._getProperty(this.attributes, n);
+    return typeof result !== 'undefined' ? result.value : null;
   }
 }
 
