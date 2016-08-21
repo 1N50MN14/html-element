@@ -191,6 +191,19 @@ test('outerHTML should include only HTML attributes', function(t) {
   t.end()
 })
 
+test('outerHTML should translate props to attrs', function(t) {
+  var label = document.createElement('label')
+  label.headers = 'invalid'
+  label.htmlFor = 'respect'
+  t.equal(label.outerHTML, '<label for="respect"></label>')
+
+  var div = document.createElement('div')
+  div.className = 'foo bar'
+  t.equal(div.outerHTML, '<div class="foo bar"></div>')
+
+  t.end()
+})
+
 test('removeAttribute', function(t){
   var div = document.createElement('div')
   div.setAttribute('data-id', 100)
