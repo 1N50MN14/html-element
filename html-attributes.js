@@ -1,9 +1,16 @@
 /**
- * A map of HTML element types to the HTML attributes they can have.
- * See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes
- * @module attributes-elements
+ * Utils for HTML attributes
+ * @module html-attributes
  */
 
+// property to attribute names
+var PROPS_TO_ATTRS = {
+  'className': 'class',
+  'htmlFor': 'for',
+};
+
+// map of attributes to the elements they affect
+// see https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes
 var HTML_ATTRIBUTES = {
   'accept': new Set([
     'form',
@@ -207,7 +214,6 @@ var HTML_ATTRIBUTES = {
     'form',
   ]),
 
-  // FIXME translate from htmlFor
   'for': new Set([
     'label',
     'output',
@@ -585,7 +591,11 @@ function isStandardAttribute(attrName, tagName) {
   );
 }
 
+function propToAttr(prop) {
+  return PROPS_TO_ATTRS[prop] || prop;
+}
+
 module.exports = {
   isStandardAttribute: isStandardAttribute,
-  HTML_ATTRIBUTES: HTML_ATTRIBUTES,
+  propToAttr: propToAttr,
 };
