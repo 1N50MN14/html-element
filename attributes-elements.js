@@ -260,7 +260,320 @@ var HTML_ATTRIBUTES = {
     'link',
   ]),
 
-  // TODO
+  'hreflang': new Set([
+    'a',
+    'area',
+    'link',
+  ]),
+
+  'http-equiv': new Set([
+    'meta',
+  ]),
+
+  'icon': new Set([
+    'command',
+  ]),
+
+  'id': 'GLOBAL',
+
+  'ismap': new Set([
+    'img',
+  ]),
+
+  'itemprop': 'GLOBAL',
+
+  'keytype': new Set([
+    'keygen',
+  ]),
+
+  'kind': new Set([
+    'track',
+  ]),
+
+  'label': new Set([
+    'track',
+  ]),
+
+  'lang': 'GLOBAL',
+
+  'language': new Set([
+    'script',
+  ]),
+
+  'list': new Set([
+    'input',
+  ]),
+
+  'loop': new Set([
+    'audio',
+    'bgsound',
+    'marquee',
+    'video',
+  ]),
+
+  'low': new Set([
+    'meter',
+  ]),
+
+  'manifest': new Set([
+    'html',
+  ]),
+
+  'max': new Set([
+    'input',
+    'meter',
+    'progress',
+  ]),
+
+  'maxlength': new Set([
+    'input',
+    'textarea',
+  ]),
+
+  'media': new Set([
+    'a',
+    'area',
+    'link',
+    'source',
+    'style',
+  ]),
+
+  'method': new Set([
+    'form',
+  ]),
+
+  'min': new Set([
+    'input',
+    'meter',
+  ]),
+
+  'multiple': new Set([
+    'input',
+    'select',
+  ]),
+
+  'muted': new Set([
+    'video',
+  ]),
+
+  'name': new Set([
+    'button',
+    'form',
+    'fieldset',
+    'iframe',
+    'input',
+    'keygen',
+    'object',
+    'output',
+    'select',
+    'textarea',
+    'map',
+    'meta',
+    'param',
+  ]),
+
+  'novalidate': new Set([
+    'form',
+  ]),
+
+  'open': new Set([
+    'details',
+  ]),
+
+  'optimum': new Set([
+    'meter',
+  ]),
+
+  'pattern': new Set([
+    'input',
+  ]),
+
+  'ping': new Set([
+    'a',
+    'area',
+  ]),
+
+  'placeholder': new Set([
+    'input',
+    'textarea',
+  ]),
+
+  'poster': new Set([
+    'video',
+  ]),
+
+  'preload': new Set([
+    'audio',
+    'video',
+  ]),
+
+  'radiogroup': new Set([
+    'command',
+  ]),
+
+  'readonly': new Set([
+    'input',
+    'textarea',
+  ]),
+
+  'rel': new Set([
+    'a',
+    'area',
+    'link',
+  ]),
+
+  'required': new Set([
+    'input',
+    'select',
+    'textarea',
+  ]),
+
+  'reversed': new Set([
+    'ol',
+  ]),
+
+  'rows': new Set([
+    'textarea',
+  ]),
+
+  'rowspan': new Set([
+    'td',
+    'th',
+  ]),
+
+  'sandbox': new Set([
+    'iframe',
+  ]),
+
+  'scope': new Set([
+    'th',
+  ]),
+
+  'scoped': new Set([
+    'style',
+  ]),
+
+  'seamless': new Set([
+    'iframe',
+  ]),
+
+  'selected': new Set([
+    'option',
+  ]),
+
+  'shape': new Set([
+    'a',
+    'area',
+  ]),
+
+  'size': new Set([
+    'input',
+    'select',
+  ]),
+
+  'sizes': new Set([
+    'img',
+    'link',
+    'source',
+  ]),
+
+  'span': new Set([
+    'col',
+    'colgroup',
+  ]),
+
+  'spellcheck': 'GLOBAL',
+
+  'src': new Set([
+    'audio',
+    'embed',
+    'iframe',
+    'img',
+    'input',
+    'script',
+    'source',
+    'track',
+    'video',
+  ]),
+
+  'srcdoc': new Set([
+    'iframe',
+  ]),
+
+  'srclang': new Set([
+    'track',
+  ]),
+
+  'srcset': new Set([
+    'img',
+  ]),
+
+  'start': new Set([
+    'ol',
+  ]),
+
+  'step': new Set([
+    'input',
+  ]),
+
+  'style': 'GLOBAL',
+
+  'summary': new Set([
+    'table',
+  ]),
+
+  'tabindex': 'GLOBAL',
+
+  'target': new Set([
+    'a',
+    'area',
+    'base',
+    'form',
+  ]),
+
+  'title': 'GLOBAL',
+
+  'type': new Set([
+    'button',
+    'input',
+    'command',
+    'embed',
+    'object',
+    'script',
+    'source',
+    'style',
+    'menu',
+  ]),
+
+  'usemap': new Set([
+    'img',
+    'input',
+    'object',
+  ]),
+
+  'value': new Set([
+    'button',
+    'option',
+    'input',
+    'li',
+    'meter',
+    'progress',
+    'param',
+  ]),
+
+  'width': new Set([
+    'canvas',
+    'embed',
+    'iframe',
+    'img',
+    'input',
+    'object',
+    'video',
+  ]),
+
+  'wrap': new Set([
+    'textarea',
+  ]),
 };
 
 function isStandardAttribute(attrName, tagName) {
