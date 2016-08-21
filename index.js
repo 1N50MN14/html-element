@@ -1,10 +1,3 @@
-global.Document = Document
-global.Node     = Node
-global.Element  = Element
-global.Comment  = Comment
-global.Text     = Text
-global.document = new Document()
-
 var ClassList = require('class-list')
 
 function Document() {}
@@ -374,3 +367,11 @@ defineParentNode(Element.prototype)
 defineParentNode(Comment.prototype)
 defineParentNode(Text.prototype)
 defineParentNode(Node.prototype)
+
+module.exports = {
+  Document: Document,
+  Node: Node,
+  Element: Element,
+  Comment: Comment,
+  Text: Text
+};
