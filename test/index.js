@@ -182,6 +182,12 @@ test('outerHTML should include only HTML attributes', function(t) {
   a.href = '/link'
   a.foo = 'bar'
   t.equal(a.outerHTML, '<a href="/link"></a>')
+
+  var div = document.createElement('div')
+  div.href = '/invalid'
+  div.tabindex = 2
+  t.equal(div.outerHTML, '<div tabindex="2"></div>')
+
   t.end()
 })
 
