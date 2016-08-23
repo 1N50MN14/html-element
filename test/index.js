@@ -1,4 +1,4 @@
-require('../');
+require('../global-shim');
 
 var test = require('tap').test;
 
