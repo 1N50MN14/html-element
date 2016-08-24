@@ -16,7 +16,7 @@ var document = require('html-element').document;
 ```
 or
 ```javascript
-import Element from 'html-element';
+import { Element } from 'html-element';
 ```
 
 ## Supported methods
