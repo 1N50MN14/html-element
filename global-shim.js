@@ -4,4 +4,4 @@ global.Node     = window.Node
 global.Element  = window.Element
 global.Comment  = window.Comment
 global.Text     = window.Text
-global.document = new window.Document()
+global.document = window.document

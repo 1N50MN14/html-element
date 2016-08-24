@@ -373,5 +373,6 @@ module.exports = {
   Node: Node,
   Element: Element,
   Comment: Comment,
-  Text: Text
+  Text: Text,
+  document: new Document(),
 };
