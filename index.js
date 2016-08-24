@@ -1,4 +1,5 @@
 var ClassList = require('class-list')
+var htmlAttributes = require('./html-attributes');
 
 function Document() {}
 
@@ -249,27 +250,32 @@ Element.prototype.__defineGetter__('outerHTML', function () {
     return attr.length ? ' '+attr.join(" ") : '';
   }
 
-   function _propertify() {
+  function _propertify() {
     var props = [];
     for (var key in self) {
-      _isProperty(key) && props.push({name: key, value:self[key]});
+      var attrName = htmlAttributes.propToAttr(key);
+      if (
+        self.hasOwnProperty(key) &&
+        ['string', 'boolean', 'number'].indexOf(typeof self[key]) !== -1 &&
+        htmlAttributes.isStandardAttribute(attrName, self.nodeName) &&
+        _shouldOutputProp(key, attrName)
+      ) {
+        props.push({name: attrName, value: self[key]});
+      }
     }
-    // special className case, if className property is define while 'class' attribute is not then
-    // include class attribute in output
-    self.className.length && !self.getAttribute('class') && props.push({name:'class', value: self.className})
     return props ? _stringify(props) : '';
   }
 
-  function _isProperty(key) {
-      var types = ['string','boolean','number']
-      for (var i=0; i<=types.length;i++) {
-        if (self.hasOwnProperty(key) &&
-            types[i] === typeof self[key] &&
-            key !== 'nodeName' &&
-            key !== 'nodeType' &&
-            key !== 'className'
-            ) return true;
+  function _shouldOutputProp(prop, attr) {
+    if (self.getAttribute(attr)) {
+      // let explicitly-set attributes override props
+      return false;
+    } else {
+      if (prop === 'className' && !self[prop]) {
+        return false;
       }
+    }
+    return true;
   }
 
   var attrs = this.style.cssText ? this.attributes.concat([{name: 'style'}]) : this.attributes;
