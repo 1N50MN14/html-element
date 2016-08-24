@@ -6,7 +6,18 @@ This is a partial implementation of HTMLElement, to get client-side templates (s
 
 The current implementation is fully compatible with [hyperscript](https://github.com/dominictarr/hyperscript).
 
-Note: adds "document" to globals.
+### Upgrading from v1.x
+
+As of v2.0.0 (Aug 2016), `html-element` no longer affects the global namespace by default. If you currently rely on `require('html-element')` to create globals such as `document` and `Element`, you should instead `require('html-element/global-shim')` when upgrading to v2.
+
+For non-global usage, you can import objects directly from the main package, e.g.:
+```javascript
+var document = require('html-element').document;
+```
+or
+```javascript
+import Element from 'html-element';
+```
 
 ## Supported methods
 
@@ -25,7 +36,7 @@ Note: adds "document" to globals.
 - outerHTML()
 - textContent()
 
-Setters update existing objects, otherwise create anew; 
+Setters update existing objects, otherwise create anew;
 
 ## Properties
 - innerHTML
