@@ -2,12 +2,15 @@
   "name": "html-element",
   "version": "2.0.0",
   "homepage": "https://github.com/1N50MN14/html-element",
+  "keywords": [
+    "html-element",
+    "HTMLElement",
+    "element",
+    "shim"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/1N50MN14/html-element.git"
-  },
-  "devDependencies": {
-    "tap": "^6.3.0"
   },
   "author": "ins0mnia <ayman.mackouly@gmail.com> (http://github.com/1N50MN14)",
   "license": "MIT",
@@ -15,19 +18,19 @@
   "description": "A simple HTMLElement shim on the server.",
   "gitHead": "a66ce0f12852e135f238ad797380c06ef2c7df95",
   "main": "index.js",
+  "scripts": {
+    "test": "tap test/*.js"
+  },
   "directories": {
     "test": "test"
   },
   "dependencies": {
     "class-list": "~0.1.1"
   },
-  "scripts": {
-    "test": "tap test/*.js"
+  "devDependencies": {
+    "tap": "^6.3.0"
   },
-  "keywords": [
-    "html-element",
-    "HTMLElement",
-    "element",
-    "shim"
-  ]
+  "engines": {
+    "node": ">=4.2"
+  }
 }
