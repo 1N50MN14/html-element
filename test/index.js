@@ -40,6 +40,16 @@ test('create a Text node', function(t){
   t.end();
 })
 
+test('Text.length', function(t) {
+  var tnode = document.createTextNode('wombats')
+
+  t.equal(tnode.length, 7);
+  tnode.replaceData(0, tnode.length, 'bla');
+  t.equal(tnode.length, 3);
+
+  t.end();
+});
+
 test('Text.replaceData', function(t) {
   var tnode = document.createTextNode('wombats')
 
