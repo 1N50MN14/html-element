@@ -8,6 +8,14 @@ function clean(e) {
           .replace(/\s+/, ' ')
 }
 
+test('Element attributes', function(t){
+  var div = document.createElement('div')
+  t.equal(div.nodeName, 'div')
+  t.equal(div.tagName, 'div')
+
+  t.end();
+})
+
 test('create a Text node', function(t){
   var h1 = document.createElement('h1')
   t.equal(clean(h1.outerHTML), "<h1></h1>")
