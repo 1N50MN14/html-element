@@ -20,11 +20,25 @@ test('assign textContent to an Element', function(t){
   var div = document.createElement('div')
   t.equal(clean(div.textContent), '')
 
+  // adds and replaces text
   div.textContent = 'text 1'
   t.equal(clean(div.textContent), 'text 1')
-
   div.textContent = 'text 2'
   t.equal(clean(div.textContent), 'text 2')
+
+  // replaces existing children
+  div = document.createElement('div')
+  var p1 = document.createElement('p')
+  var p2 = document.createElement('p')
+  div.appendChild(p1)
+  div.appendChild(p2)
+  t.same(div.childNodes[0], p1)
+  t.same(div.childNodes[1], p2)
+  t.equal(clean(div.textContent), '')
+  div.textContent = 'replacement'
+  t.equal(clean(div.textContent), 'replacement')
+  t.equal(div.childNodes.length, 1)
+  t.notSame(div.childNodes[0], p1)
 
   t.end()
 })
