@@ -169,13 +169,19 @@ Element.prototype.removeChild = function(rChild) {
 
 Element.prototype.insertBefore = function (newChild, existingChild) {
   var childNodes = this.childNodes;
-  for (var i = 0, len = childNodes.length; i < len; i++) {
-    var child = childNodes[i];
-    if (child === existingChild) {
-      i === 0 ? childNodes.unshift(newChild) : childNodes.splice(i, 0, newChild);
-      break;
+
+  if (existingChild === null) {
+    childNodes.push(newChild);
+  } else {
+    for (var i = 0, len = childNodes.length; i < len; i++) {
+      var child = childNodes[i];
+      if (child === existingChild) {
+        i === 0 ? childNodes.unshift(newChild) : childNodes.splice(i, 0, newChild);
+        break;
+      }
     }
   }
+
   return newChild;
 }
 
