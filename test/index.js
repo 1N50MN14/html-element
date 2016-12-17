@@ -13,7 +13,20 @@ test('Element attributes', function(t){
   t.equal(div.nodeName, 'div')
   t.equal(div.tagName, 'div')
 
-  t.end();
+  t.end()
+})
+
+test('assign textContent to an Element', function(t){
+  var div = document.createElement('div')
+  t.equal(clean(div.textContent), '')
+
+  div.textContent = 'text 1'
+  t.equal(clean(div.textContent), 'text 1')
+
+  div.textContent = 'text 2'
+  t.equal(clean(div.textContent), 'text 2')
+
+  t.end()
 })
 
 test('create a Text node', function(t){
