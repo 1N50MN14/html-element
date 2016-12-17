@@ -304,6 +304,13 @@ Element.prototype.__defineGetter__('textContent', function () {
   return s
 })
 
+Element.prototype.__defineSetter__('textContent', function (v) {
+  var textNode = new Text()
+  textNode.textContent = v
+  this.childNodes = [textNode]
+  return v
+})
+
 Element.prototype.addEventListener = function(t, l) {}
 
 function escapeHTML(s) {
