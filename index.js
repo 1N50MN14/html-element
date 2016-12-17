@@ -13,7 +13,7 @@ Document.prototype.createTextNode = function(v) {
 
 Document.prototype.createElement = function(nodeName) {
     var el = new Element();
-    el.nodeName = nodeName;
+    el.nodeName = el.tagName = nodeName;
     return el;
 }
 
