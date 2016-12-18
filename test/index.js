@@ -274,11 +274,13 @@ test('insertBefore', function(t){
   var children = div.childNodes
   t.same(children[0], div1)
   t.same(children[1], div2)
+  t.same(div2.parentNode, div)
 
   var div3 = document.createElement('div')
   div.insertBefore(div3, div2)
   t.same(children[1], div3)
   t.same(children[2], div2)
+  t.same(div2.parentNode, div)
 
   // If referenceNode is null, the newNode is inserted
   // at the end of the list of child nodes.
@@ -286,6 +288,13 @@ test('insertBefore', function(t){
   div.insertBefore(div4, null)
   t.same(children[2], div2)
   t.same(children[3], div4)
+  t.same(div4.parentNode, div)
+
+  // insertBefore should set parentNode
+  var div5 = document.createElement('div')
+  div.insertBefore(div5, div4)
+  t.same(children[3], div5)
+  t.same(div5.parentNode, div)
 
   t.end()
 })
