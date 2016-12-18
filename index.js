@@ -148,6 +148,7 @@ Element.prototype.replaceChild = function(newChild, oldChild) {
     this.childNodes.forEach(function(child, index){
         if (child === oldChild) {
             self.childNodes[index] = newChild;
+            newChild.parentElement = this;
             replaced = true;
         }
     });
@@ -160,7 +161,8 @@ Element.prototype.removeChild = function(rChild) {
     this.childNodes.forEach(function(child, index){
         if (child === rChild) {
           // use splice to keep a clean childNode array
-          self.childNodes.splice(index, 1)
+          self.childNodes.splice(index, 1);
+          rChild.parentElement = null;
           removed = true;
         }
     })
@@ -181,6 +183,7 @@ Element.prototype.insertBefore = function (newChild, existingChild) {
       }
     }
   }
+  newChild.parentElement = this;
 
   return newChild;
 }
