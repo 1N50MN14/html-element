@@ -1,6 +1,55 @@
 var ClassList = require('class-list')
 var htmlAttributes = require('./html-attributes');
 
+function Event(type, data) {
+  this.type = type;
+  this.target = null;
+  Object.keys(data || {}).forEach(function(attr) {
+    this[attr] = data[attr];
+  }, this);
+}
+
+Event.prototype.preventDefault = function() {
+  // not implemented
+};
+
+Event.prototype.stopPropagation = function() {
+  // not implemented
+};
+
+Event.prototype.stopImmediatePropagation = function() {
+  // not implemented
+};
+
+function addEventListener(eventType, listener) {
+  this._eventListeners = this._eventListeners || {};
+  this._eventListeners[eventType] = this._eventListeners[eventType] || [];
+  this._eventListeners[eventType].push(listener);
+}
+
+function removeEventListener(eventType, listener) {
+  const listeners = this._eventListeners && this._eventListeners[eventType];
+  if (listeners) {
+    const index = listeners.indexOf(listener);
+    if (index !== -1) {
+      listeners.splice(index, 1);
+    }
+  }
+}
+
+function dispatchEvent(event) {
+  event.target = this; // native browser dispatchEvent mutates event to set target, so do that here
+  if (this._eventListeners) {
+    const listeners = this._eventListeners && this._eventListeners[event.type];
+    if (listeners) {
+      listeners.forEach(function(listener) {
+        listener(event);
+      });
+    }
+  }
+  return true; // event stopPropagation not implemented so always return true
+}
+
 function Document() {}
 
 Document.prototype.createTextNode = function(v) {
@@ -23,6 +72,9 @@ Document.prototype.createComment = function(data) {
     return el;
 }
 
+Document.prototype.addEventListener = addEventListener;
+Document.prototype.removeEventListener = removeEventListener;
+Document.prototype.dispatchEvent = dispatchEvent;
 
 function Node () {}
 
@@ -188,15 +240,9 @@ Element.prototype.insertBefore = function (newChild, existingChild) {
   return newChild;
 }
 
-Element.prototype.addEventListener = function(type, listener, useCapture, wantsUntrusted) {
-  // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.addEventListener
-  // There is an implementation there but probably not worth it.
-}
-
-Element.prototype.removeEventListener = function(type, listener, useCapture) {
-  // https://developer.mozilla.org/en/docs/Web/API/EventTarget.removeEventListener
-  // There is an implementation there but probably not worth it.
-}
+Element.prototype.addEventListener = addEventListener;
+Element.prototype.removeEventListener = removeEventListener;
+Element.prototype.dispatchEvent = dispatchEvent;
 
 Element.prototype.insertAdjacentHTML = function(position, text) {
   // https://developer.mozilla.org/en-US/docs/Web/API/Element.insertAdjacentHTML
@@ -314,8 +360,6 @@ Element.prototype.__defineSetter__('textContent', function (v) {
   return v
 })
 
-Element.prototype.addEventListener = function(t, l) {}
-
 function escapeHTML(s) {
   return String(s)
       .replace(/&/g, '&amp;')
@@ -401,4 +445,6 @@ module.exports = {
   Comment: Comment,
   Text: Text,
   document: new Document(),
+  Event: Event,
+  CustomEvent: Event,
 };
