@@ -24,13 +24,16 @@ Event.prototype.stopImmediatePropagation = function() {
 function addEventListener(eventType, listener) {
   this._eventListeners = this._eventListeners || {};
   this._eventListeners[eventType] = this._eventListeners[eventType] || [];
-  this._eventListeners[eventType].push(listener);
+  var listeners = this._eventListeners[eventType];
+  if (listeners.indexOf(listener) === -1) {
+    listeners.push(listener);
+  }
 }
 
 function removeEventListener(eventType, listener) {
-  const listeners = this._eventListeners && this._eventListeners[eventType];
+  var listeners = this._eventListeners && this._eventListeners[eventType];
   if (listeners) {
-    const index = listeners.indexOf(listener);
+    var index = listeners.indexOf(listener);
     if (index !== -1) {
       listeners.splice(index, 1);
     }
@@ -39,13 +42,11 @@ function removeEventListener(eventType, listener) {
 
 function dispatchEvent(event) {
   event.target = this; // native browser dispatchEvent mutates event to set target, so do that here
-  if (this._eventListeners) {
-    const listeners = this._eventListeners && this._eventListeners[event.type];
-    if (listeners) {
-      listeners.forEach(function(listener) {
-        listener(event);
-      });
-    }
+  var listeners = this._eventListeners && this._eventListeners[event.type];
+  if (listeners) {
+    listeners.forEach(function(listener) {
+      listener(event);
+    });
   }
   return true; // event stopPropagation not implemented so always return true
 }
