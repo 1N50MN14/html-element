@@ -35,6 +35,9 @@ import { Element } from 'html-element';
 - innerHTML()
 - outerHTML()
 - textContent()
+- addEventListener(eventType, listenerFunc)
+- removeEventListener(eventType, listenerFunc)
+- dispatchEvent(event)
 
 Setters update existing objects, otherwise create anew;
 

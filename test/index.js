@@ -298,3 +298,109 @@ test('insertBefore', function(t){
 
   t.end()
 })
+
+test('addEventListener', function(t) {
+  var div = document.createElement('div')
+  var listener1 = function() { return 1; };
+  var listener2 = function() { return 2; };
+
+  div.addEventListener('click', listener1);
+  t.same(div._eventListeners, {click: [listener1]});
+
+  // ensure no duplicate listeners
+  div.addEventListener('click', listener1);
+  t.same(div._eventListeners, {click: [listener1]});
+
+  div.addEventListener('click', listener2);
+  t.same(div._eventListeners, {click: [listener1, listener2]});
+
+  t.end();
+});
+
+test('removeEventListener', function(t) {
+  var div = document.createElement('div')
+  var listener1 = function() { return 1; };
+  var listener2 = function() { return 2; };
+
+  div.addEventListener('click', listener1);
+  div.addEventListener('click', listener2);
+
+  t.same(div._eventListeners, {click: [listener1, listener2]});
+  div.removeEventListener('click', listener1);
+  t.same(div._eventListeners, {click: [listener2]});
+
+  // ensure no error on nonexistent listener removal
+  div.removeEventListener('click', listener1);
+  t.same(div._eventListeners, {click: [listener2]});
+
+  // ensure no removal by equivalent event listener value; only by reference
+  div.removeEventListener('click', function() { return 2; });
+  t.same(div._eventListeners, {click: [listener2]});
+
+  div.removeEventListener('click', listener2);
+  t.same(div._eventListeners, {click: []});
+
+  t.end();
+});
+
+test('dispatchEvent', function(t) {
+  var div = document.createElement('div')
+  div.setAttribute('value', 'baz');
+
+  var selected = [];
+
+  var listener = function(ev) {
+    // test event target
+    selected.push(ev.detail.selected + ':' + ev.target.getAttribute('value'));
+  };
+
+  div.addEventListener('click', listener);
+  div.dispatchEvent(new CustomEvent('click', {
+    detail: {
+      selected: 'foo',
+    },
+  }));
+
+  t.same(selected, ['foo:baz']);
+
+  div.dispatchEvent(new CustomEvent('click', {
+    detail: {
+      selected: 'bar',
+    },
+  }));
+
+  t.same(selected, ['foo:baz', 'bar:baz']);
+
+  var doubleListener = function(ev) {
+    selected.push(ev.detail.selected + ev.detail.selected);
+  };
+  div.addEventListener('click', doubleListener);
+  div.dispatchEvent(new CustomEvent('click', {
+    detail: {
+      selected: 'bar',
+    },
+  }));
+
+  t.same(selected, ['foo:baz', 'bar:baz', 'bar:baz', 'barbar']);
+
+  div.removeEventListener('click', doubleListener);
+  div.dispatchEvent(new CustomEvent('click', {
+    detail: {
+      selected: 'foo',
+    },
+  }));
+
+  t.same(selected, ['foo:baz', 'bar:baz', 'bar:baz', 'barbar', 'foo:baz']);
+
+  div.removeEventListener('click', listener);
+  div.dispatchEvent(new CustomEvent('click', {
+    detail: {
+      selected: 'bar',
+    },
+  }));
+
+  // selected list should stay the same since all listeners were removed
+  t.same(selected, ['foo:baz', 'bar:baz', 'bar:baz', 'barbar', 'foo:baz']);
+
+  t.end();
+});
