@@ -336,6 +336,11 @@ var HTML_ATTRIBUTES = {
     'textarea',
   ]),
 
+  'maxlength': new Set([
+    'input',
+    'textarea',
+  ]),
+
   'media': new Set([
     'a',
     'area',

@@ -404,3 +404,11 @@ test('dispatchEvent', function(t) {
 
   t.end();
 });
+
+test('Input with minlength and maxlength', function(t){
+  var input = document.createElement('input')
+  input.setAttribute('minlength', 42)
+  input.setAttribute('maxlength', 420)
+  t.equal(input.outerHTML, '<input minlength="42" maxlength="420">')
+  t.end()
+})
