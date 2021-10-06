@@ -336,7 +336,7 @@ var HTML_ATTRIBUTES = {
     'textarea',
   ]),
 
-  'maxlength': new Set([
+  'minlength': new Set([
     'input',
     'textarea',
   ]),
