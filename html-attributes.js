@@ -286,7 +286,15 @@ var HTML_ATTRIBUTES = {
     'img',
   ]),
 
+  'itemid': 'GLOBAL',
+
   'itemprop': 'GLOBAL',
+
+  'itemref': 'GLOBAL',
+
+  'itemscope': 'GLOBAL',
+  
+  'itemtype': 'GLOBAL',
 
   'keytype': new Set([
     'keygen',
